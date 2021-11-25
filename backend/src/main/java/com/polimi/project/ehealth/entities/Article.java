@@ -1,11 +1,17 @@
 package com.polimi.project.ehealth.entities;
 
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 // Sub document
+@Getter
+@Setter
+@AllArgsConstructor
 public class Article {
 
     @Field("pubmed_id")
@@ -20,10 +26,4 @@ public class Article {
 
     private List<String> keywords;
 
-    public Article(Long pubmedId, String title, String abstractText, int classMark, List<String> keywords) {
-        this.pubmedId = pubmedId;
-        this.title = title;
-        this.abstractText = abstractText;
-        this.keywords = keywords;
-    }
 }

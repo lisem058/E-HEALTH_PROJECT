@@ -1,11 +1,17 @@
 package com.polimi.project.ehealth.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
 @Document("e_health_pubmed")
+@Getter
+@Setter
+@AllArgsConstructor
 public class Application {
 
     @Id
@@ -15,9 +21,4 @@ public class Application {
 
     private List<Article> articles;
 
-    public Application(String id, String app, List<Article> articles) {
-        this.id = id;
-        this.app = app;
-        this.articles = articles;
-    }
 }
