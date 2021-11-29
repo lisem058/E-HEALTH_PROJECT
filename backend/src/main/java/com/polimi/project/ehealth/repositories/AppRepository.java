@@ -16,7 +16,7 @@ public interface AppRepository extends MongoRepository<Application, String> {
     @Query("{app: '?0'}")
     Application findAppByName(String name);
 
-    //db.e_health_pubmed.aggregate([{$unwind: "$articles"}, {$match: {"articles.keywords": {$all: ["stroke"] }}}])
+    // db.e_health_pubmed.aggregate([{$unwind: "$articles"}, {$match: {"articles.keywords": {$all: ["stroke"] }}}])
     @Aggregation(pipeline = {"{$unwind: '$articles'}",
                             "{$match: {'articles.keywords': {$all: ?0}}}",
                             "{$facet: { \n" +

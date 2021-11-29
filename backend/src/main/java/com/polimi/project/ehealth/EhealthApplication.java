@@ -12,8 +12,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories
 public class EhealthApplication {
 
-	@Autowired
-	AppRepository appRepository;
+	final AppRepository appRepository;
+
+	public EhealthApplication(AppRepository appRepository) {
+		this.appRepository = appRepository;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(EhealthApplication.class, args);
