@@ -46,6 +46,6 @@ public class AppController {
 
     @GetMapping(value = {"/api/v1/category"})
     public List<String> getDistinctCategories() {
-        return new ApplicationDaoImpl().queryDistinctCategory();
+        return new ApplicationDaoImpl().findByField();
     }
 }
