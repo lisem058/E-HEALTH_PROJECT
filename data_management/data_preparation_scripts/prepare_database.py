@@ -23,10 +23,9 @@ def preprocess(file_path):
 
         if existed:
             keywords = []
-            k = 1
             for i in value.keywords[2:-2].split("', '"):
-                keywords.append({"key_{}".format(k): i})
-                k += 1
+                keywords.append(i)
+                
             files[index]['articles'].append({
                 'pubmed_id': value.pubmed_id,
                 'title': value.title,
@@ -35,10 +34,8 @@ def preprocess(file_path):
                 'keywords': keywords})
         else:
             keywords = []
-            k = 1
             for i in value.keywords[2:-2].split("', '"):
-                keywords.append({"key_{}".format(k): i})
-                k += 1
+                keywords.append(i)
 
             files.append(
                 {
