@@ -15,5 +15,30 @@ The queries for MongoDB are the following:
   ```
  * Get distinct categories:
   ```
-  db.e_health_pubmed.distinct("articles.keywords")
+  db.e_health_pubmed.aggregate([
+    {$unwind: "$articles"},
+    {
+      $project: {
+        _id: 0,
+        keys: "$articles.keywords"
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        uniqueKeys: {$push: "$keys"}
+      }
+    },
+    {
+      $project: {
+        selectedKeys: {
+          $reduce: {
+            input: "$uniqueKeys",
+            initialValue: [],
+            in: {$setUnion: ["$$value", "$$this"]}
+          }
+        }
+      }
+    }
+  ])
   ```
