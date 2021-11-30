@@ -1,6 +1,5 @@
 package com.polimi.project.ehealth.controller;
 
-import com.polimi.project.ehealth.dao.ApplicationDaoImpl;
 import com.polimi.project.ehealth.entities.Application;
 import com.polimi.project.ehealth.entities.FullAggregation;
 import com.polimi.project.ehealth.service.AppService;
@@ -46,6 +45,6 @@ public class AppController {
 
     @GetMapping(value = {"/api/v1/category"})
     public List<String> getDistinctCategories() {
-        return new ApplicationDaoImpl().findByField();
+        return appService.getDistinctCategories();
     }
 }

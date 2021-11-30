@@ -24,4 +24,8 @@ public class AppService {
     public List<FullAggregation> getByCategories(List<String> categories, int page, int size) {
         return appRepository.findElementsByCategory(categories, page, size, page * size);
     }
+
+    public List<String> getDistinctCategories() {
+        return appRepository.findDistinctCategories();
+    }
 }

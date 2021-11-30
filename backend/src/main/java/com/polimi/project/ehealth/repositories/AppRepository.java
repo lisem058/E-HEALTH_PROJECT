@@ -28,5 +28,27 @@ public interface AppRepository extends MongoRepository<Application, String> {
                             "}}"})
     List<FullAggregation> findElementsByCategory(List<String> categories, int page, int size, int skip);
 
+    @Aggregation(pipeline = {
+                    "{$unwind: '$articles'}",
+                    "{$project: {\n" +
+                        "_id: 0,\n" +
+                        "keys: '$articles.keywords'\n" +
+                    "}}",
+                    "{$group: {\n" +
+                        "_id: null,\n" +
+                        "uniqueKeys: {$push: '$keys'}\n" +
+                    "}}",
+                    "{$project: {\n" +
+                        "selectedKeys: {\n" +
+                            "$reduce: {\n" +
+                                "input: '$uniqueKeys',\n" +
+                                "initialValue: [],\n" +
+                                "in: {$setUnion: ['$$value', '$$this']}\n" +
+                            "}\n" +
+                        "}\n" +
+                    "}}"
+                    })
+    List<String> findDistinctCategories();
+
     long count();
 }
