@@ -6,7 +6,7 @@
   align-items: center;
   flex-direction: column;
   font-family: "Nunito", sans-serif;
-  background-image: url('./Assets/Light_Space.svg');
+  background-image: linear-gradient(to bottom right, lightBlue, rgb(163, 163, 238)); 
   background-position: center;
 }
 body {

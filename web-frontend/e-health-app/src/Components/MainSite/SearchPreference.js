@@ -19,7 +19,7 @@ function SearchPreference(props) {
         <div className="radio-button-search-preference-group">
             <FormControl>
                 <RadioGroup row aria-label="search" name="search-preference-radio-group"  
-                        value={category} onChange={childFunction} /*{(e) => setCategory(e.target.value)}*/>
+                        value={category} onChange={childFunction}>
                     <FormControlLabel value="app" 
                         control={<Radio color="primary"/>} 
                         label="Search Application" 

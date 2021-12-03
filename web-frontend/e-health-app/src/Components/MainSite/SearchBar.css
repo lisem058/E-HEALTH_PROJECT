@@ -31,6 +31,16 @@ input:focus {
     font-size: 35px;
 }
 
+.searchIcon {
+    display: table; 
+    width: 20%;
+}
+
+.twoIcons {
+    display: table-cell; 
+    vertical-align: middle;
+}
+
 .dataResult {
     margin-top: 5px;
     width: 300px;
@@ -66,5 +76,9 @@ a:hover {
 }
 
 #clearBtn {
+    cursor: pointer;
+}
+
+#searchBtn {
     cursor: pointer;
 }

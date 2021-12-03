@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import SearchBar from "./SearchBar";
 import SearchPreference from "./SearchPreference";
-import BookData from '../../Data.json';
+import CategoryData from '../../CategoryData.json';
 
 
 class MainPage extends Component {
@@ -25,14 +25,14 @@ class MainPage extends Component {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter an App name..." data={BookData}/>
+                    <SearchBar placeholder="Enter an App name..." data={CategoryData}/>
                 </div>
             )    
         } else {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter Category..." data={BookData}/>
+                    <SearchBar placeholder="Enter Category..." data={CategoryData}/>
                 </div>
             )    
         }
