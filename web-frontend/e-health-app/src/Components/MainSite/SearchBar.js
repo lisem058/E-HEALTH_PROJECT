@@ -6,7 +6,7 @@ import { useNavigate, createSearchParams } from 'react-router-dom';
 
 // TODO: change categories api
 // TODO: optimize it
-function SearchBar({placeholder, data}) {
+function SearchBar({placeholder, data, preference}) {
 
     const [filteredData, setFilteredData] = useState([]);
     const [wordEntered, setWordEntered] = useState("");
@@ -23,7 +23,6 @@ function SearchBar({placeholder, data}) {
         if (searchWord === "") {
             setFilteredData([]);
         } else {
-            console.log(newFilter);
             setFilteredData(newFilter);
         }
     }
@@ -37,7 +36,16 @@ function SearchBar({placeholder, data}) {
         history({
             pathname: "/search",
             search: `?${createSearchParams({
-                categories: filteredData
+                categories: wordEntered
+            })}`
+        })
+    }
+
+    const appSearch = () => {
+        history({
+            pathname: "/search",
+            search: `?${createSearchParams({
+                app: wordEntered
             })}`
         })
     }
@@ -49,12 +57,16 @@ function SearchBar({placeholder, data}) {
                 <div className="searchIcon">
                     {filteredData.length === 0 ? (
                         <div className="twoIcons">
-                            <SearchIcon id="searchBtn" />
+                            <SearchIcon id="searchBtn"/>
                         </div>
                      ) : (
                          <div className="twoIcons">
                             <CloseIcon id="clearBtn"  onClick={clearInput}/>
-                            <SearchIcon id="searchBtn" onClick= {actualSearch}/>
+                            {preference === "app" ? (
+                                <SearchIcon id="searchBtn" onClick={appSearch} />
+                            ) : (
+                                <SearchIcon id="searchBtn" onClick= {actualSearch}/>
+                            )}
                          </div>
                      )}
                 </div>

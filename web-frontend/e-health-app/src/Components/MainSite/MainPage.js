@@ -25,14 +25,14 @@ class MainPage extends Component {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter an App name..." data={CategoryData}/>
+                    <SearchBar placeholder="Enter an App name..." data={CategoryData} preference={this.state.preference}/>
                 </div>
             )    
         } else {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter Category..." data={CategoryData}/>
+                    <SearchBar placeholder="Enter Category..." data={CategoryData} preference={this.state.preference}/>
                 </div>
             )    
         }

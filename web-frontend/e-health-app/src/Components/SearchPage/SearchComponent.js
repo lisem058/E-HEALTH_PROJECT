@@ -2,14 +2,15 @@ import { useLocation } from "react-router";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid } from '@material-ui/core';
 import Card from '../ReusableComponents/Card';
+import CategoryData from '../../Category1.json';
 
 const useStyles = makeStyles({
     gridContainer: {
         paddingLeft: "20px",
         paddingRight: "20px",
         margin: 0,
-        width: '100vw',
-        height: '100vh'
+        width: '100%',
+        height: '100%'
     }
 })
 
@@ -17,31 +18,26 @@ const useStyles = makeStyles({
 const SearchComponent = () => {
 
     const location = useLocation().search;
-    const category = new URLSearchParams(location).get('categories');
+    const app = new URLSearchParams(location).get('app')
+    const category = new URLSearchParams(location).get('categories')
+    const urlSearch = !app  ?  category : app;
 
     const classes = useStyles();
-
-    const cardData = [
-        "", 
-        "",
-        "",
-        "",
-        ""
-    ]  
 
     const renderCard = (card, index) => {
         return (
             <Grid item xs={7}>
-                <Card />
+                <Card data={card}/>
             </Grid>
         )
     }
 
-
     return (
-        <Grid container spacing={8} justify="center" className={classes.gridContainer}>
-            {cardData.map(renderCard)}
-        </Grid>
+        <div className="App">
+            <Grid container spacing={6} justifyContent="center" className={classes.gridContainer}>
+                {CategoryData[0].data.map(renderCard)}
+            </Grid>
+        </div>
     )
 }
 
