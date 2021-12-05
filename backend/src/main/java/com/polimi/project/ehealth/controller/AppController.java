@@ -1,14 +1,16 @@
 package com.polimi.project.ehealth.controller;
 
 import com.polimi.project.ehealth.entities.Application;
+import com.polimi.project.ehealth.entities.DistinctAggregation;
 import com.polimi.project.ehealth.entities.FullAggregation;
 import com.polimi.project.ehealth.service.AppService;
-import org.springframework.http.HttpStatus;
+import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class AppController {
@@ -22,7 +24,10 @@ public class AppController {
     @GetMapping(value = {"/api/v1/app/search"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public ResponseEntity<Application> getApplicationByName(@RequestParam(name = "app") String name) {
-        return new ResponseEntity<>(appService.getApplicationByName(name), HttpStatus.OK);
+        return Optional
+                .ofNullable(appService.getApplicationByName(name))
+                .map(application -> ResponseEntity.ok().body(application))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = "/api/v1/category/search", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,11 +45,22 @@ public class AppController {
             size = 10;
         }
 
-        return new ResponseEntity<>(appService.getByCategories(categories, page, size), HttpStatus.OK);
+        return Optional
+                .ofNullable(appService.getByCategories(categories, page, size))
+                .map(aggregation -> ResponseEntity.ok().body(aggregation))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping(value = {"/api/v1/category"})
-    public List<String> getDistinctCategories() {
-        return appService.getDistinctCategories();
+    @ResponseBody
+    public ResponseEntity<List<String>> getDistinctCategories() {
+
+        return ResponseEntity.ok(appService.getDistinctCategories().stream().collect(Collectors.toList()));
+    }
+
+    @GetMapping(value = {"/api/v1/app"})
+    @ResponseBody
+    public ResponseEntity<List<DistinctAggregation>> getApplications() {
+        return ResponseEntity.ok(appService.getDistinctApplications().stream().collect(Collectors.toList()));
     }
 }

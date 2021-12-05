@@ -26,4 +26,6 @@ public class Article {
 
     private List<String> keywords;
 
+    private List<Author> authors;
+
 }

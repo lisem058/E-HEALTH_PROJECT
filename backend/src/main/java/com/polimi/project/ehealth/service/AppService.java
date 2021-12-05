@@ -2,6 +2,7 @@ package com.polimi.project.ehealth.service;
 
 import com.polimi.project.ehealth.entities.AggregationApp;
 import com.polimi.project.ehealth.entities.Application;
+import com.polimi.project.ehealth.entities.DistinctAggregation;
 import com.polimi.project.ehealth.entities.FullAggregation;
 import com.polimi.project.ehealth.repositories.AppRepository;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,9 @@ public class AppService {
 
     public List<String> getDistinctCategories() {
         return appRepository.findDistinctCategories();
+    }
+
+    public List<DistinctAggregation> getDistinctApplications() {
+        return appRepository.findDistinctApplications();
     }
 }

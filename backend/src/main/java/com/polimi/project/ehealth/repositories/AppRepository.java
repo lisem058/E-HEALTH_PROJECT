@@ -2,6 +2,7 @@ package com.polimi.project.ehealth.repositories;
 
 import com.polimi.project.ehealth.entities.AggregationApp;
 import com.polimi.project.ehealth.entities.Application;
+import com.polimi.project.ehealth.entities.DistinctAggregation;
 import com.polimi.project.ehealth.entities.FullAggregation;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -49,6 +50,18 @@ public interface AppRepository extends MongoRepository<Application, String> {
                     "}}"
                     })
     List<String> findDistinctCategories();
+
+    @Aggregation(pipeline = {
+            "{$project: {\n" +
+                    "_id: 0,\n" +
+                    "keys: '$app'\n" +
+                    "}}",
+            "{$group: {\n" +
+                    "_id: null,\n" +
+                    "uniqueKeys: {$push: '$keys'}\n" +
+                    "}}",
+    })
+    List<DistinctAggregation> findDistinctApplications();
 
     long count();
 }
