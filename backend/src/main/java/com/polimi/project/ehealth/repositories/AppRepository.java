@@ -1,9 +1,6 @@
 package com.polimi.project.ehealth.repositories;
 
-import com.polimi.project.ehealth.entities.AggregationApp;
-import com.polimi.project.ehealth.entities.Application;
-import com.polimi.project.ehealth.entities.DistinctAggregation;
-import com.polimi.project.ehealth.entities.FullAggregation;
+import com.polimi.project.ehealth.entities.*;
 import org.springframework.data.mongodb.repository.Aggregation;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -12,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AppRepository extends MongoRepository<Application, String> {
+public interface AppRepository extends MongoRepository<Application, String>, FilterRepository {
 
     @Query("{app: '?0'}")
     Application findAppByName(String name);
@@ -62,6 +59,74 @@ public interface AppRepository extends MongoRepository<Application, String> {
                     "}}",
     })
     List<DistinctAggregation> findDistinctApplications();
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$project: {'articles.class': 1}}",
+            "{$group: {_id: '$articles.class', count: {$sum: 1}}}"
+    })
+    List<ClassAppAggregation> findClassAppAggregation(String app);
+
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$project: {'articles.publication_date': 1}}",
+            "{$group: {_id: '$articles.publication_date', count: {$sum: 1}}}"
+    })
+    List<DateAppAggregation> findDateAppAggregation(String app);
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$project: {'articles.journal': 1}}",
+            "{$group: {_id: '$articles.journal', count: {$sum: 1}}}"
+    })
+    List<JournalAppAggregation> findJournalAppAggregation(String app);
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$match: {'articles.publication_date': ?1}}",
+            "{$facet: { \n" +
+                    "'metadata': [ \n" +
+                    "{$count: 'total'}, \n" +
+                    "{$addFields: {page: ?2}} \n" +
+                    "], \n" +
+                    "'data': [{$skip: ?4}, {$limit: ?3}] \n" +
+                    "}}"
+    })
+    List<FullAggregation> filterByDate(String app, String date, int page, int size, int skip);
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$match: {'articles.journal': ?1}}",
+            "{$facet: { \n" +
+                    "'metadata': [ \n" +
+                    "{$count: 'total'}, \n" +
+                    "{$addFields: {page: ?2}} \n" +
+                    "], \n" +
+                    "'data': [{$skip: ?4}, {$limit: ?3}] \n" +
+                    "}}"
+    })
+    List<FullAggregation> filterByJournal(String app, String journal, int page, int size, int skip);
+
+    @Aggregation(pipeline = {
+            "{$match: {app: '?0'}}",
+            "{$unwind: '$articles'}",
+            "{$match: {'articles.publication_date': ?1}}",
+            "{$match: {'articles.journal': ?2}}",
+            "{$facet: { \n" +
+                    "'metadata': [ \n" +
+                    "{$count: 'total'}, \n" +
+                    "{$addFields: {page: ?3}} \n" +
+                    "], \n" +
+                    "'data': [{$skip: ?5}, {$limit: ?4}] \n" +
+                    "}}"
+    })
+    List<FullAggregation> filterByDateAndJournal(String app, String date, String journal, int page, int size, int skip);
 
     long count();
 }

@@ -24,6 +24,11 @@ public class Article {
     @Field("class")
     private int classMark;
 
+    @Field("publication_date")
+    private String publicationDate;
+
+    private String journal;
+
     private List<String> keywords;
 
     private List<Author> authors;

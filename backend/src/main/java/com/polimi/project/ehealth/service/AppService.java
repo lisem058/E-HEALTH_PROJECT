@@ -1,10 +1,8 @@
 package com.polimi.project.ehealth.service;
 
-import com.polimi.project.ehealth.entities.AggregationApp;
-import com.polimi.project.ehealth.entities.Application;
-import com.polimi.project.ehealth.entities.DistinctAggregation;
-import com.polimi.project.ehealth.entities.FullAggregation;
+import com.polimi.project.ehealth.entities.*;
 import com.polimi.project.ehealth.repositories.AppRepository;
+import com.polimi.project.ehealth.repositories.FilterRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,5 +30,23 @@ public class AppService {
 
     public List<DistinctAggregation> getDistinctApplications() {
         return appRepository.findDistinctApplications();
+    }
+
+    public List<ClassAppAggregation> getClassAppAggregation(String app) {return appRepository.findClassAppAggregation(app);}
+
+    public List<DateAppAggregation> getDateAppAggregation(String app) {return appRepository.findDateAppAggregation(app);}
+
+    public List<JournalAppAggregation> getJournalAppAggregation(String app) {return appRepository.findJournalAppAggregation(app);}
+
+    public List<FullAggregation> filterByAppAndDate(String app, String date, int page, int size) {
+        return appRepository.filterByDate(app, date, page, size, page * size);
+    }
+
+    public List<FullAggregation> filterByAppAndJournal(String app, String journal, int page, int size) {
+        return appRepository.filterByJournal(app, journal, page, size, page * size);
+    }
+
+    public List<FullAggregation> filterByAppDateAndJournal(String app, String date, String journal, int page, int size) {
+        return appRepository.filterByDateAndJournal(app, date, journal, page, size, page * size);
     }
 }
