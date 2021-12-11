@@ -3,7 +3,6 @@ import './App.css';
 import MainPage from "./Components/MainSite/MainPage";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 import SearchComponent from './Components/SearchPage/SearchComponent';
-import AnalyticsComponent from './Components/Analytics/AnalyticsComponent';
 
 function App() {
 
