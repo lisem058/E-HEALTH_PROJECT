@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import SearchBar from "./SearchBar";
 import SearchPreference from "./SearchPreference";
 import CategoryData from '../../CategoryData.json';
-
+import AppData from '../../AppData.json';
 
 class MainPage extends Component {
 
@@ -25,14 +25,14 @@ class MainPage extends Component {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter an App name..." data={CategoryData} preference={this.state.preference}/>
+                    <SearchBar placeholder="Enter an App name..." data={AppData.app} preference={this.state.preference}/>
                 </div>
             )    
         } else {
             return (
                 <div>
                     <SearchPreference functionCallFromParent={this.parentFunction.bind(this)}/>
-                    <SearchBar placeholder="Enter Category..." data={CategoryData} preference={this.state.preference}/>
+                    <SearchBar placeholder="Enter Category..." data={CategoryData.categories} preference={this.state.preference}/>
                 </div>
             )    
         }

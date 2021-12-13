@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./SearchBar.css";
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
+import {Box} from '@material-ui/core';
 import { useNavigate, createSearchParams } from 'react-router-dom';
 
 // TODO: change categories api
@@ -16,7 +17,7 @@ function SearchBar({placeholder, data, preference}) {
     const handleFilter = (event) => {
         const searchWord = event.target.value
         setWordEntered(searchWord)
-        const newFilter = data.categories.filter( (value) => {
+        const newFilter = data.filter( (value) => {
             return value.toLowerCase().includes(searchWord.toLowerCase());
         })
 
@@ -50,6 +51,7 @@ function SearchBar({placeholder, data, preference}) {
         })
     }
 
+    // TODO: solve the problem with the buttons (need to make one of them just as a box)
     return (
         <div className="search">
             <div className="searchInputs">
@@ -57,7 +59,14 @@ function SearchBar({placeholder, data, preference}) {
                 <div className="searchIcon">
                     {filteredData.length === 0 ? (
                         <div className="twoIcons">
-                            <SearchIcon id="searchBtn"/>
+                            <Box>
+                                <Box display="none">
+                                    <CloseIcon id="clearBtn"/>
+                                </Box>
+                                <Box display="inline">
+                                    <SearchIcon id="searchBtn"/>
+                                </Box>
+                            </Box>
                         </div>
                      ) : (
                          <div className="twoIcons">
@@ -74,7 +83,8 @@ function SearchBar({placeholder, data, preference}) {
             {filteredData.length != 0 && (
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
-                        return <a className="dataItem" href={value.link} target="_blank">
+                        return <a className="dataItem" 
+                                    href={"http://localhost:3000/search?" + preference + "=" +value} target="_self">
                             <p>{value}</p>
                         </a>
                     })}

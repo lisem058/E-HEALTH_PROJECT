@@ -1,11 +1,9 @@
 [
     {
-        "metadata": [
-            {
+        "metadata":{
                 "total": 2,
                 "page": 0
-            }
-        ],
+            },
         "data": [
             {
                 "id": "619cbaef51ba5a3c48770a1b",

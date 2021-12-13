@@ -23,10 +23,11 @@ const useStyles = makeStyles({
   }
 });
 
-export default function OutlinedCard({data}, {app}) {
+export default function OutlinedCard({data, app}) {
   const classes = useStyles();
 
   const renderTypography = (item, index) => {
+
     return (
       <Typography variant="body2" component="li">
         {item}
@@ -45,7 +46,7 @@ export default function OutlinedCard({data}, {app}) {
           {data.classMark}
         </Typography>
         <Typography variant="h5" component="h2">
-          {app}
+          Application - "{app}"
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
           {data.title}
