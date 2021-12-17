@@ -11,40 +11,8 @@ import {
 import { withStyles } from '@material-ui/core/styles';
 import { Animation } from '@devexpress/dx-react-chart';
 
-import { confidence as data } from '../../data_visualisation';
-
 const format = () => tick => tick;
-const legendStyles = () => ({
-  root: {
-    display: 'flex',
-    margin: 'auto',
-    flexDirection: 'row',
-  },
-});
-const legendLabelStyles = theme => ({
-  label: {
-    paddingTop: theme.spacing(1),
-    whiteSpace: 'nowrap',
-  },
-});
-const legendItemStyles = () => ({
-  item: {
-    flexDirection: 'column',
-  },
-});
 
-const legendRootBase = ({ classes, ...restProps }) => (
-  <Legend.Root {...restProps} className={classes.root} />
-);
-const legendLabelBase = ({ classes, ...restProps }) => (
-  <Legend.Label className={classes.label} {...restProps} />
-);
-const legendItemBase = ({ classes, ...restProps }) => (
-  <Legend.Item className={classes.item} {...restProps} />
-);
-const Root = withStyles(legendStyles, { name: 'LegendRoot' })(legendRootBase);
-const Label = withStyles(legendLabelStyles, { name: 'LegendLabel' })(legendLabelBase);
-const Item = withStyles(legendItemStyles, { name: 'LegendItem' })(legendItemBase);
 const demoStyles = () => ({
   chart: {
     paddingRight: '20px',
@@ -59,7 +27,7 @@ const ValueLabel = (props) => {
   return (
     <ValueAxis.Label
       {...props}
-      text={`${text}%`}
+      text={`${text}`}
     />
   );
 };
@@ -69,28 +37,17 @@ const titleStyles = {
     whiteSpace: 'pre',
   },
 };
+
 const TitleText = withStyles(titleStyles)(({ classes, ...props }) => (
   <Title.Text {...props} className={classes.title} />
 ));
 
-class LineChart extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const LineChart = (props) => {
 
-    this.state = {
-      data,
-    };
-  }
-
-  render() {
-    const { data: chartData } = this.state;
-    const { classes } = this.props;
-
-    return (
+  return (
       <Paper>
         <Chart
-          data={chartData}
-          className={classes.chart}
+          data={props.data}
         >
           <ArgumentAxis tickFormat={format} />
           <ValueAxis
@@ -99,30 +56,19 @@ class LineChart extends React.PureComponent {
           />
 
           <LineSeries
-            name="TV news"
-            valueField="tvNews"
-            argumentField="year"
+            name="Count"
+            valueField="count"
+            argumentField="date"
           />
-          <LineSeries
-            name="Church"
-            valueField="church"
-            argumentField="year"
-          />
-          <LineSeries
-            name="Military"
-            valueField="military"
-            argumentField="year"
-          />
-          <Legend position="bottom" rootComponent={Root} itemComponent={Item} labelComponent={Label} />
+          <Legend position="bottom" />
           <Title
-            text={`Confidence in Institutions in American society ${'\n'}(Great deal)`}
+            text={`Game per year`}
             textComponent={TitleText}
           />
           <Animation />
         </Chart>
       </Paper>
-    );
-  }
+  );
 }
 
 export default withStyles(demoStyles, { name: 'LineChart' })(LineChart);

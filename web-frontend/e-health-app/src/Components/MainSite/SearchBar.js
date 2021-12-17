@@ -33,20 +33,20 @@ function SearchBar({placeholder, data, preference}) {
         setWordEntered("");
     }
 
-    const actualSearch = () => {
+    const actualSearch = (value) => {
         history({
             pathname: "/search",
             search: `?${createSearchParams({
-                categories: wordEntered
+                categories: value
             })}`
         })
     }
 
-    const appSearch = () => {
+    const appSearch = (value) => {
         history({
             pathname: "/search",
             search: `?${createSearchParams({
-                app: wordEntered
+                app: value
             })}`
         })
     }
@@ -80,16 +80,27 @@ function SearchBar({placeholder, data, preference}) {
                      )}
                 </div>
             </div>
-            {filteredData.length != 0 && (
+            {filteredData.length != 0 && preference === "app" && (
                 <div className="dataResult">
                     {filteredData.slice(0, 15).map((value, key) => {
-                        return <a className="dataItem" 
-                                    href={"http://localhost:3000/search?" + preference + "=" +value} target="_self">
+                        return (
+                        <div className="dataItem" onClick={() => appSearch(value)}>
                             <p>{value}</p>
-                        </a>
+                        </div>)
                     })}
                 </div>
             )}
+            {filteredData.length != 0 && preference === "category" && (
+                <div className="dataResult">
+                    {filteredData.slice(0, 15).map((value, key) => {
+                        return (
+                        <div className="dataItem" onClick={() => actualSearch(value)}>
+                            <p>{value}</p>
+                        </div>)
+                    })}
+                </div>
+            )}
+
         </div>
     );
 }

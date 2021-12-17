@@ -21,16 +21,16 @@ const useStyles = makeStyles({
 });  
 
 
-function AnalyticsComponent() {
+const AnalyticsComponent = (props) => {
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <BarChart />
+            <BarChart data={props.dataBar}/>
             <div style={{height: '50px'}}></div>
-            <LineChart />
+            <LineChart data={props.dataLine}/>
             <div style={{height: '50px'}}></div>
-            <PieChart />
+            <PieChart data={props.dataPie}/>
         </div>
     )
 

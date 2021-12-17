@@ -18,13 +18,13 @@ const CardFill = (props) => {
 
     return (
             <Grid container spacing={6} justifyContent="center" className={classes.gridContainer}>
-                {props.app === null ? (
+                {props.app === "category" ? (
                     <Grid item xs={7}>
                         <Card data={props.elem}/>
                     </Grid>
                 ) : (
                     <Grid item xs={7}>
-                        <CardApp data={props.elem} app={props.app}/>
+                        <CardApp data={props.elem} app={props.data}/>
                     </Grid>
                 )
             }

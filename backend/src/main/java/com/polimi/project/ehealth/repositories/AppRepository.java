@@ -16,36 +16,36 @@ public interface AppRepository extends MongoRepository<Application, String>, Fil
 
     // db.e_health_pubmed.aggregate([{$unwind: "$articles"}, {$match: {"articles.keywords": {$all: ["stroke"] }}}])
     @Aggregation(pipeline = {"{$unwind: '$articles'}",
-                            "{$match: {'articles.keywords': {$all: ?0}}}",
-                            "{$facet: { \n" +
-                                "'metadata': [ \n" +
-                                    "{$count: 'total'}, \n" +
-                                    "{$addFields: {page: ?1}} \n" +
-                                "], \n" +
-                                "'data': [{$skip: ?3}, {$limit: ?2}] \n" +
-                            "}}"})
-    List<FullAggregation> findElementsByCategory(List<String> categories, int page, int size, int skip);
+            "{$match: {'articles.keywords': {$all: ?0}}}",
+            "{$facet: { \n" +
+                    "'metadata': [ \n" +
+                    "{$count: 'total'}, \n" +
+                    "{$addFields: {page: ?1}} \n" +
+                    "], \n" +
+                    "'data': [{$skip: ?3}, {$limit: ?2}] \n" +
+                    "}}"})
+    FullAggregation findElementsByCategory(List<String> categories, int page, int size, int skip);
 
     @Aggregation(pipeline = {
-                    "{$unwind: '$articles'}",
-                    "{$project: {\n" +
-                        "_id: 0,\n" +
-                        "keys: '$articles.keywords'\n" +
+            "{$unwind: '$articles'}",
+            "{$project: {\n" +
+                    "_id: 0,\n" +
+                    "keys: '$articles.keywords'\n" +
                     "}}",
-                    "{$group: {\n" +
-                        "_id: null,\n" +
-                        "uniqueKeys: {$push: '$keys'}\n" +
+            "{$group: {\n" +
+                    "_id: null,\n" +
+                    "uniqueKeys: {$push: '$keys'}\n" +
                     "}}",
-                    "{$project: {\n" +
-                        "selectedKeys: {\n" +
-                            "$reduce: {\n" +
-                                "input: '$uniqueKeys',\n" +
-                                "initialValue: [],\n" +
-                                "in: {$setUnion: ['$$value', '$$this']}\n" +
-                            "}\n" +
-                        "}\n" +
+            "{$project: {\n" +
+                    "selectedKeys: {\n" +
+                    "$reduce: {\n" +
+                    "input: '$uniqueKeys',\n" +
+                    "initialValue: [],\n" +
+                    "in: {$setUnion: ['$$value', '$$this']}\n" +
+                    "}\n" +
+                    "}\n" +
                     "}}"
-                    })
+    })
     List<String> findDistinctCategories();
 
     @Aggregation(pipeline = {
@@ -81,7 +81,9 @@ public interface AppRepository extends MongoRepository<Application, String>, Fil
             "{$match: {app: '?0'}}",
             "{$unwind: '$articles'}",
             "{$project: {'articles.journal': 1}}",
-            "{$group: {_id: '$articles.journal', count: {$sum: 1}}}"
+            "{$group: {_id: '$articles.journal', count: {$sum: 1}}}",
+            "{$sort: {count: -1}}",
+            "{$limit: 5}"
     })
     List<JournalAppAggregation> findJournalAppAggregation(String app);
 

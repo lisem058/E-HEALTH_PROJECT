@@ -1,32 +1,111 @@
 import { TabPanel, useTabs } from 'react-headless-tabs';
 import CardFill from '../SearchPage/CardFill';
 import '../SearchPage/pagination.scss';
-import AppData from '../../App.json';
-import CategoryData from '../../Category1.json';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import Pagination from '../SearchPage/Pagination';
 import AnalyticsComponent from '../Analytics/AnalyticsComponent';
 
-function Tabs({app}) {
+function Tabs(props) {
   const items = [
     'analytics',
     'searched',
   ]
   const [selectedTab, setSelectedTab] = useTabs(items);
+  const [dataCard, setDataCard] = useState(null)
+  const [dataBar, setDataBar] = useState(null)
+  const [dataLine, setDataLine] = useState(null)
+  const [dataPie, setDataPie] = useState(null)
 
   let PageSize = 5;
 
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect( () => {
+    if (props.state === "category") {
+      fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/category/search?categories=${encodeURIComponent(props.data)}`, {
+        method: "GET",
+        headers: {'Content-Type': 'application/json'},
+      })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(data => setDataCard(data))
+    } else {
+      fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/analytics/class?app=${encodeURIComponent(props.data)}`, {
+        method: "GET"
+      })
+      .then(response =>  {
+        if(response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(data => setDataBar(data))
+      fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/analytics/date?app=${encodeURIComponent(props.data)}`, {
+        method: "GET"
+      })
+      .then(response =>  {
+        if(response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(data => {
+        data.sort((a, b) => (a.date > b.date) ? 1 : -1)
+        const newData = data.map((value, index) => {
+          const year = new Date(value.date * 1000).getFullYear() 
+          const month = new Date(value.date).getMonth() + 1
+          const day = new Date(value.date).getDay() + 1
+          return {date: year + "/" + month + "/" + day,
+                  count : value.count};
+        })
+        setDataLine(newData)
+      })
+      fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/analytics/journal?app=${encodeURIComponent(props.data)}`, {
+        method: "GET"
+      })
+      .then(response =>  {
+        if(response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(data => {
+        setDataPie(data)
+      })
+      fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/app/search?app=${encodeURIComponent(props.data)}`, {
+        method: "GET"
+      })
+      .then(response =>  {
+        if(response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(data => setDataCard(data))
+    }
+  }, [props.state, props.data])
+
+
   const currentData = useMemo(() => {
         const firstPageIndex = (currentPage - 1) * PageSize;
         const lastPageIndex = firstPageIndex + PageSize;
-        if (app === null) {
-          return CategoryData[0].data.slice(firstPageIndex, lastPageIndex);
-        } else {
-          return AppData.articles.slice(firstPageIndex, lastPageIndex);
+        if (dataCard !== null) {
+          if (props.state === "category") {
+            return dataCard.data.slice(firstPageIndex, lastPageIndex);
+          } else {
+            return dataCard.articles.slice(firstPageIndex, lastPageIndex);
+          }  
         }
-  }, [currentPage]);
+  }, [dataCard, currentPage, props.state, PageSize]);
 
 
 
@@ -41,7 +120,7 @@ function Tabs({app}) {
   }
 
     const getSelectedTabIndex = () => items.findIndex((item) => item === selectedTab);
-      return (
+      return typeof currentData !== 'undefined' ? (
         <div className='App'>
           <nav>
           <div
@@ -86,24 +165,34 @@ function Tabs({app}) {
           }}
         >
         <TabPanel key={"analytics"} hidden={selectedTab !== "analytics"}>
-          <AnalyticsComponent />
+          {props.state === "app" ? (
+            <AnalyticsComponent dataBar={dataBar} dataLine={dataLine} dataPie={dataPie}/>
+          ): (
+            <span>
+              We don't see any good analytics solution for keywords that could be useful
+            </span>
+          )}
         </TabPanel>
         <TabPanel key={"searched"} hidden={selectedTab !== "searched"}>
           {
             currentData.map(item => {
-              return <CardFill elem={item} app={app}></CardFill>
+              return <CardFill elem={item} app={props.state} data={props.data}></CardFill>
             })
           }
           <Pagination
                 className="pagination-bar"
                 currentPage={currentPage}
-                totalCount={ app === null ? CategoryData[0].metadata.total : AppData.articles.length}
+                totalCount={ props.state === "category" ? dataCard.data.length : dataCard.articles.length}
                 pageSize={PageSize}
                 onPageChange={page => setCurrentPage(page)}
           />
         </TabPanel>    
       </div>
     </div>
+  ) : (
+    <span>
+      Loading...
+    </span>
   );
 
 }

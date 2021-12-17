@@ -61,6 +61,11 @@ input:focus {
     display: flex;
     align-items: center;
     color: black;
+    cursor: pointer;
+}
+
+.dataResult .dataItem:hover {
+    background: #c6c9ca;
 }
 
 .dataItem p {

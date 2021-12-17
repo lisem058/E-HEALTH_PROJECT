@@ -1,10 +1,12 @@
 package com.polimi.project.ehealth.controller;
 
+import com.polimi.project.ehealth.dto.ApplicationDto;
+import com.polimi.project.ehealth.dto.DateAppAggregationDto;
 import com.polimi.project.ehealth.entities.*;
 import com.polimi.project.ehealth.service.AppService;
 
+import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,7 @@ public class AppController {
 
     @GetMapping(value = {"/api/v1/app/search"}, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<Application> getApplicationByName(@RequestParam(name = "app") String name) {
+    public ResponseEntity<ApplicationDto> getApplicationByName(@RequestParam(name = "app") String name) {
         return Optional
                 .ofNullable(appService.getApplicationByName(name))
                 .map(application -> ResponseEntity.ok().body(application))
@@ -32,10 +34,10 @@ public class AppController {
 
     @GetMapping(value = "/api/v1/category/search", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<List<FullAggregation>> getAppsByCategory(
+    public ResponseEntity<FullAggregation> getAppsByCategory(
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size,
-            @RequestBody List<String> categories
+            @RequestParam(name = "categories") String categories
     ) {
         if (page == null) {
             page = 0;
@@ -45,8 +47,11 @@ public class AppController {
             size = 10;
         }
 
+        List<String> categoriesList = new ArrayList<>();
+        categoriesList.add(categories);
+
         return Optional
-                .ofNullable(appService.getByCategories(categories, page, size))
+                .ofNullable(appService.getByCategories(categoriesList, page, size))
                 .map(aggregation -> ResponseEntity.ok().body(aggregation))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -75,7 +80,7 @@ public class AppController {
 
     @GetMapping(value = {"/api/v1/analytics/date"})
     @ResponseBody
-    public ResponseEntity<List<DateAppAggregation>> getAnalyticsDatePerApp(@RequestParam(name = "app") String app) {
+    public ResponseEntity<List<DateAppAggregationDto>> getAnalyticsDatePerApp(@RequestParam(name = "app") String app) throws ParseException {
         return Optional
                 .ofNullable(appService.getDateAppAggregation(app))
                 .map(aggregation -> ResponseEntity.ok().body(aggregation))
@@ -99,7 +104,7 @@ public class AppController {
             @RequestParam(name = "journal", required = false) String journal,
             @RequestParam(name = "page", required = false) Integer page,
             @RequestParam(name = "size", required = false) Integer size
-            ) {
+    ) {
 
         if (page == null) {
             page = 0;
