@@ -65,7 +65,16 @@ function Tabs(props) {
           return {date: year + "/" + month + "/" + day,
                   count : value.count};
         })
-        setDataLine(newData)
+        var reduced = [] 
+        newData.reduce((res, value) => {
+          if(!res[value.date]) {
+            res[value.date] = {date: value.date, count: value.count}
+            reduced.push(res[value.date])
+          }
+          res[value.date].count += value.count
+          return res
+        }, {})
+        setDataLine(reduced)
       })
       fetch(`https://radiant-tundra-87631.herokuapp.com/api/v1/analytics/journal?app=${encodeURIComponent(props.data)}`, {
         method: "GET"
@@ -120,7 +129,7 @@ function Tabs(props) {
   }
 
     const getSelectedTabIndex = () => items.findIndex((item) => item === selectedTab);
-      return typeof currentData !== 'undefined' ? (
+      return typeof currentData !== 'undefined' && dataBar !== null && dataCard !== null && dataPie !== null ? (
         <div className='App'>
           <nav>
           <div

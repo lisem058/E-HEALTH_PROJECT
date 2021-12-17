@@ -8,6 +8,8 @@ import {
   Title,
   Legend,
 } from '@devexpress/dx-react-chart-material-ui';
+import { ValueScale } from '@devexpress/dx-react-chart';
+import { scaleLinear } from 'd3-scale';
 import { withStyles } from '@material-ui/core/styles';
 import { Animation } from '@devexpress/dx-react-chart';
 
@@ -32,6 +34,8 @@ const ValueLabel = (props) => {
   );
 };
 
+
+
 const titleStyles = {
   title: {
     whiteSpace: 'pre',
@@ -42,17 +46,31 @@ const TitleText = withStyles(titleStyles)(({ classes, ...props }) => (
   <Title.Text {...props} className={classes.title} />
 ));
 
+
+
 const LineChart = (props) => {
+
+  const max = props.data.reduce(function(prev, current) {
+    return (prev.count > current.count) ? prev : current
+  }) //returns object
+
+  const modifyDomain = () => [0, max.count + 10];
+
 
   return (
       <Paper>
         <Chart
           data={props.data}
         >
-          <ArgumentAxis tickFormat={format} />
+          {console.log(max)}
+          <ValueScale factory={scaleLinear} modifyDomain={modifyDomain}/>
+          <ArgumentAxis tickFormat={format}             
+            valueMarginsEnabled={false}
+            discreteAxisDivisionMode="crossLabels"
+          />
           <ValueAxis
-            max={50}
             labelComponent={ValueLabel}
+            synchrono
           />
 
           <LineSeries
