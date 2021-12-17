@@ -1,0 +1,44 @@
+[
+    {
+        "metadata": [
+            {
+                "total": 2,
+                "page": 0
+            }
+        ],
+        "data": [
+            {
+                "id": "619cbaef51ba5a3c48770a1b",
+                "app": "Kharty - Study and learn with games",
+                "article": {
+                    "pubmedId": 34782891,
+                    "title": "User-centered evaluation of Discord in midwifery education during the COVID-19 pandemic: Analysis of the adaptation of the tool to student needs.",
+                    "abstractText": "In the context of the COVID-19 pandemic in 2020, and in order to overcome the lack of face-to-face contact between students and teachers, the midwifery department of Grenoble (France) decided to use the Discord tool in the training of midwifery students. In order to evaluate the relevance of using instant messaging software for the education of future midwives, the tool was evaluated by the students.\nWe conducted, in January 2021, a user-centered online study with all midwifery students in training for the classes of 2020-2021, using the French translation of Anstey and Watson's Rubric for the Evaluation of eLearning Tools. This evaluation analyzed the different dimensions of Discord in the context of training: functionality, accessibility, technology, design, privacy and data protection, social presence, pedagogical presence, and cognitive presence.\nDiscord had a good functionality for 75% of the students surveyed. They found Discord to be suitable for maintaining social links and creating serious games. But they did not find it useful for following courses or practical work. More than 80% of the midwifery students interviewed agreed that Discord can be adapted to different learning contexts.\nThe department can continue to use Discord without reservation for the creation of serious games, as well as for maintaining links between students and teaching staff in the department. Discord has the characteristics of a social network, allowing students to connect with each other.",
+                    "classMark": 1,
+                    "keywords": [
+                        "confinement",
+                        "learning environment",
+                        "midwifery education",
+                        "social presence"
+                    ]
+                }
+            },
+            {
+                "id": "619cbb0351ba5a3c48772094",
+                "app": "Learn French Quickly",
+                "article": {
+                    "pubmedId": 34782891,
+                    "title": "User-centered evaluation of Discord in midwifery education during the COVID-19 pandemic: Analysis of the adaptation of the tool to student needs.",
+                    "abstractText": "In the context of the COVID-19 pandemic in 2020, and in order to overcome the lack of face-to-face contact between students and teachers, the midwifery department of Grenoble (France) decided to use the Discord tool in the training of midwifery students. In order to evaluate the relevance of using instant messaging software for the education of future midwives, the tool was evaluated by the students.\nWe conducted, in January 2021, a user-centered online study with all midwifery students in training for the classes of 2020-2021, using the French translation of Anstey and Watson's Rubric for the Evaluation of eLearning Tools. This evaluation analyzed the different dimensions of Discord in the context of training: functionality, accessibility, technology, design, privacy and data protection, social presence, pedagogical presence, and cognitive presence.\nDiscord had a good functionality for 75% of the students surveyed. They found Discord to be suitable for maintaining social links and creating serious games. But they did not find it useful for following courses or practical work. More than 80% of the midwifery students interviewed agreed that Discord can be adapted to different learning contexts.\nThe department can continue to use Discord without reservation for the creation of serious games, as well as for maintaining links between students and teaching staff in the department. Discord has the characteristics of a social network, allowing students to connect with each other.",
+                    "classMark": 1,
+                    "keywords": [
+                        "confinement",
+                        "learning environment",
+                        "midwifery education",
+                        "social presence"
+                    ]
+                }
+            }
+        ]
+    }
+]

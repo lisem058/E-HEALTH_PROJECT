@@ -1,30 +1,23 @@
-package com.polimi.project.ehealth.entities;
+package com.polimi.project.ehealth.dto;
 
-
+import com.polimi.project.ehealth.entities.Author;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
-// Sub document
 @Getter
 @Setter
 @AllArgsConstructor
-public class Article {
-
-    @Field("pubmed_id")
+public class ArticleDto {
     private Long pubmedId;
     private String title;
-    
-    @Field("abstract")
+
     private String abstractText;
 
-    @Field("class")
-    private int classMark;
+    private String classMark;
 
-    @Field("publication_date")
     private String publicationDate;
 
     private String journal;
@@ -32,5 +25,4 @@ public class Article {
     private List<String> keywords;
 
     private List<Author> authors;
-
 }
