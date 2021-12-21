@@ -129,7 +129,8 @@ function Tabs(props) {
   }
 
     const getSelectedTabIndex = () => items.findIndex((item) => item === selectedTab);
-      return typeof currentData !== 'undefined' && dataBar !== null && dataCard !== null && dataPie !== null ? (
+      return (typeof currentData !== 'undefined' && props.state === "category") || 
+      (props.state === "app" && typeof currentData !== 'undefined' && dataBar !== null && dataCard !== null && dataPie !== null) ? (
         <div className='App'>
           <nav>
           <div
