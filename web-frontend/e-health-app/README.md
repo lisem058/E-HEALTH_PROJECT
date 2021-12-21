@@ -1,6 +1,12 @@
-# Getting Started with Create React App
+# Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend, you can run it locally too. You just need the following command
+
+```
+npm start
+```
+But if you want to do something more sofisticated, you can use the following queries that are listed here 
+
 
 ## Available Scripts
 
